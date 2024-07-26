@@ -15,6 +15,7 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card"
+import { Skeleton } from "../ui/skeleton"
 
 export const NowPlayingCard = () => {
   const { data, error } = useSWR<CurrentlyPlayingItems>(
@@ -27,7 +28,26 @@ export const NowPlayingCard = () => {
   )
 
   if (error) return <div>failed to load</div>
-  if (!data) return <div>loading...</div>
+  if (!data)
+    return (
+      <Card className="bg-foreground/5 backdrop-blur">
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <Skeleton className="h-5 w-44" />
+            <Skeleton className="h-6 w-6 rounded-full" />
+          </div>
+        </CardHeader>
+        <CardContent className="flex items-center space-x-4">
+          <Skeleton className="h-24 w-24 rounded-lg" />
+          <div className="space-y-2">
+            <Skeleton className="h-4 w-44" />
+            <Skeleton className="h-4 w-40" />
+            <Skeleton className="h-4 w-36" />
+            <Skeleton className="h-4 w-32" />
+          </div>
+        </CardContent>
+      </Card>
+    )
 
   return (
     <div>
@@ -104,7 +124,20 @@ export const NowPlayingCard = () => {
             </div>
           </CardContent>
         </Card>
-      ) : null}
+      ) : (
+        <Card className="bg-foreground/5 backdrop-blur">
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-base font-semibold">
+                Currently not playing music
+              </CardTitle>
+              <CardDescription>
+                <FaSpotify className="h-6 w-6 text-muted-foreground" />
+              </CardDescription>
+            </div>
+          </CardHeader>
+        </Card>
+      )}
     </div>
   )
 }
