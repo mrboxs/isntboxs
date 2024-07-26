@@ -2,9 +2,8 @@ import { NowPlayingCard } from "@/components/global/now-playing"
 
 export default function Home() {
   return (
-    <div>
-      {/* <h1 className="text-7xl font-bold">hai tod!</h1> */}
+    <main className="container max-w-2xl py-8 sm:max-w-3xl md:max-w-4xl lg:max-w-5xl xl:max-w-6xl">
       <NowPlayingCard />
-    </div>
+    </main>
   )
 }

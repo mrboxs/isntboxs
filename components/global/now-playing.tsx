@@ -2,6 +2,7 @@
 
 import Image from "next/image"
 import Link from "next/link"
+import { FaSpotify } from "react-icons/fa"
 import useSWR from "swr"
 
 import fetcher from "@/lib/fetcher"
@@ -21,7 +22,7 @@ export const NowPlayingCard = () => {
     fetcher,
     {
       revalidateOnFocus: true,
-      revalidateOnReconnect: true,
+      refreshInterval: 30 * 1000,
     }
   )
 
@@ -31,33 +32,45 @@ export const NowPlayingCard = () => {
   return (
     <div>
       {data?.isPlaying ? (
-        <Card>
+        <Card className="bg-foreground/5 backdrop-blur">
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-base font-semibold">
+                Now playing to Spotify
+              </CardTitle>
+              <CardDescription>
+                <FaSpotify className="h-6 w-6 text-[#1DB954]" />
+              </CardDescription>
+            </div>
+          </CardHeader>
           <CardContent className="flex items-center space-x-4">
-            <Image
-              priority
-              src={data.albumImage.url}
-              alt={data.title}
-              width={data.albumImage.width}
-              height={data.albumImage.height}
-              className="h-24 w-24"
-            />
+            <div className="relative h-24 w-24 overflow-hidden rounded-lg">
+              <Image
+                priority
+                src={data.albumImage.url}
+                alt={data.title}
+                width={data.albumImage.width}
+                height={data.albumImage.height}
+                className="h-full w-full"
+              />
+            </div>
             <div className="space-y-1">
               <Link
                 href={data.songUrl}
-                className="line-clamp-1 text-2xl font-bold hover:text-secondary hover:underline"
+                className="line-clamp-1 text-lg font-bold hover:text-[#1DB954] hover:underline hover:decoration-foreground"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 {data.title}
               </Link>
-              <p className="line-clamp-1 text-base">
+              <p className="line-clamp-1 text-sm">
                 by{" "}
                 {data.artist
                   ?.map((artist) => (
                     <Link
                       key={artist.id}
                       href={`https://open.spotify.com/artist/${artist.id}`}
-                      className="font-medium hover:text-secondary hover:underline"
+                      className="font-medium hover:text-[#1DB954] hover:underline hover:decoration-foreground"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -66,18 +79,22 @@ export const NowPlayingCard = () => {
                   ))
                   .reduce((prev, curr) => [prev, ", ", curr] as any)}
               </p>
-              <p className="line-clamp-1 text-base">
-                on Album{" "}
+              <p className="line-clamp-1 text-sm">
+                on album{" "}
                 <Link
                   href={data.songUrl}
-                  className="font-medium hover:text-secondary hover:underline"
+                  className="font-medium hover:text-[#1DB954] hover:underline hover:decoration-foreground"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   {data.album}
                 </Link>
               </p>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-xs text-muted-foreground">
+                played on{" "}
+                <span className="font-medium">
+                  {data.currently_playing_type}
+                </span>{" "}
                 {new Date(data.timestamp).toLocaleTimeString("en-US", {
                   hour: "numeric",
                   minute: "numeric",

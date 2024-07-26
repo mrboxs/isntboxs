@@ -24,6 +24,7 @@ export async function GET(request: Request) {
       timestamp: json.timestamp,
       progress_ms: json.progress_ms,
       duration_ms: json.item.duration_ms,
+      currently_playing_type: json.currently_playing_type,
     }
 
     return NextResponse.json(track)

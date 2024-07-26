@@ -1,4 +1,5 @@
 interface CurrentlyPlayingResponse {
+  currently_playing_type: string
   progress_ms: number
   timestamp: number
   is_playing: boolean
@@ -44,6 +45,7 @@ interface BaseTrack {
   timestamp: number
   progress_ms: number
   duration_ms: number
+  currently_playing_type: string
 }
 
 interface SpotifyArtist {
