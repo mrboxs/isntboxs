@@ -64,16 +64,14 @@ export const NowPlayingCard = () => {
             </div>
           </CardHeader>
           <CardContent className="flex items-center space-x-4">
-            <div className="relative h-24 w-24 overflow-hidden rounded-lg">
-              <Image
-                priority
-                src={data.albumImage.url}
-                alt={data.title}
-                width={data.albumImage.width}
-                height={data.albumImage.height}
-                className="h-full w-full"
-              />
-            </div>
+            <Image
+              priority
+              src={data.albumImage.url}
+              alt={data.title}
+              width={data.albumImage.width}
+              height={data.albumImage.height}
+              className="h-24 w-24"
+            />
             <div className="space-y-1">
               <Link
                 href={data.songUrl}
